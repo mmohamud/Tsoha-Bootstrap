@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Onko opintotuki riittävän suuri?</h1>
+<p>
+<button class="btn btn-danger">Poista</button> <a href="/Tsoha/votelist/opAanestys/edit" class="btn btn-default">Muokkaa</a>
+</p>
+
+<ul>
+	<li><strong>Tekijä:</strong> Olli Opiskelija</li>
+	<li><strong>Alkamispäivä:</strong> 14.09.2017</li>
+	<li><strong>Status:</strong> <label class="label label-success">Käynnissä</label></li>
+	<li><strong>Sulkeutumispäivä: </strong> 14.10.2017</li>
+</ul>
+<p class="lead">
+	Viime aikoina opintotukea on leikattu merkittävästi. Onko mielestäsi opintotuki tällä hetkellä riittävän suuri?
+</p>
+
+<button class="btn btn-success">Kyllä</button>
+<button class="btn btn-danger">Ei</button>
+
+{% endblock %}

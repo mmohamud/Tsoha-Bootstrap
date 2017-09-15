@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<h1> Onko opintotuki riittävän suuri?</h1>
+<form>
+	<label class="checkbox-inline">		
+		<input type="checkbox" id="inlineCheckbox1" value="option1"> Yksityinen			
+	</label>
+	
+	<label class="checkbox-inline">		
+		<input type="checkbox" id="inlineCheckbox2" value="option1"> Vaadi sisäänkirjautumista			
+	</label>
+	
+	<p>
+	</p>
+	
+	<div class="form-group">
+	<label>Nimi</label>
+	<input type="text" class="form-control" value="Onko opintotuki riittävän suuri?">
+	</div>
+
+	<div class="form-group">
+	<label>Sulkeutumispäivä</label>
+	<p>
+	</p>
+
+	<input type="date" min="<?php echo $today; ?>">		
+	</div>
+
+	<div class="form-group">
+	<Label>Kuvaus</Label>
+	<textarea class= "form-control">Viime aikoina opintotukea on leikattu merkittävästi. Onko mielestäsi opintotuki tällä hetkellä riittävän suuri?
+	</textarea>
+	</div>
+
+	<label>Vastausvaihtoehtojen määrä</label>
+	<select class="form-control">
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+		<option>9</option>
+		<option>10</option>
+	</select>
+	
+	<p>
+	</p>
+	<p>
+	</p>
+	<p>
+	</p>
+
+	<div class="form-group">
+		<button type="submit" class= "btn btn-primary">Tallenna</button>
+	</div>
+</form>
+
+{% endblock %}
