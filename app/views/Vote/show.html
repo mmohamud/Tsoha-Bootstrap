@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Onko opintotuki riittävän suuri?</h1>
+<p>
+<button class="btn btn-danger">Poista</button> <a href="{{base_path}}/Tsoha/votelist/opAanestys/edit" class="btn btn-default">Muokkaa</a>
+</p>
+
+<ul>
+	
+	<li><strong>Alkamispäivä:</strong>{{aanestys.alkamispaiva}}</li>
+	<li><strong>Kategoria:</strong>{{aanestys.kategoria}}</li>
+	<li><strong>Sulkeutumispäivä: </strong>{{aanestys.sulkeutumispaiva}}</li>
+</ul>
+<p class="lead">
+	{{aanestys.kuvaus}}</p>
+
+
+<button class="btn btn-success">Kyllä</button>
+<button class="btn btn-danger">Ei</button>
+
+{% endblock %}

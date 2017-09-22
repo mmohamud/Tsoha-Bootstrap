@@ -1,1 +1,5 @@
 -- Lisää DROP TABLE lauseet tähän tiedostoon
+DROP TABLE IF EXISTS Kayttaja CASCADE; -- Muista IF EXISTS ja CASCADE parametrit!
+DROP TABLE IF EXISTS Aanestys CASCADE;-- Muista IF EXISTS ja CASCADE parametrit!
+DROP TABLE IF EXISTS Aani CASCADE;
+DROP TABLE IF EXISTS Kategoria CASCADE;

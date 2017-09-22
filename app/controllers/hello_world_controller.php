@@ -1,5 +1,6 @@
 <?php
 
+
   class HelloWorldController extends BaseController{
 
     public static function etusivu(){
@@ -7,9 +8,15 @@
    	  View::make("suunnitelmat/frontpage.html");
     }
 
+    
+
     public static function sandbox(){
       // Testaa koodiasi täällä
-      View::make("helloworld.html");
+      $Aanestykset = Aanestys::all();
+      $esimAanestys = Aanestys::find(1);
+
+      Kint::dump($esimAanestys);
+      Kint::dump($Aanestykset);
     }
     
     public static function äänestyssivu() {
@@ -33,6 +40,7 @@
     }
 
     public static function uusiÄänestys() {
-      View::make("suunnitelmat/vote_create.html");
+      $today = date ("d/m/y");
+      View::make("suunnitelmat/vote_create.html", array('today' => $today));
     }
   }
