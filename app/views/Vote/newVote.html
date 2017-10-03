@@ -1,60 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-<h1> Luo äänestys</h1>
+<h1>Luo äänestys</h1>
 <form method="post" action="{{base_path}}/vote">
 	
 
 	
 	<div class="form-group">
 	<label>Nimi</label>
-	<input type="text" class="form-control" value="">
+	<input type="text" class="form-control" name="nimi">
 	<p>
 	</p>
 	<label>Kategoria</label>
-	<input type="text" class="form-control" value="">
+	<input type="text" class="form-control" name="kategoria">
 	</div>
 
 	<div class="form-group">
 	<label>Alkamispäivä</label>
-	<input type="text" class="form-control" value="">		
+	<input type="text" class="form-control" name="alkamispaiva">		
 	</div>
 
 	<div class="form-group">
 	<label>Sulkeutumispäivä</label>
-	<input type="text" class="form-control" value="">		
+	<input type="text" class="form-control" name="sulkeutumispaiva">		
 	</div>
 
 	<div class="form-group">
 	<Label>Kuvaus</Label>
-	<textarea class= "form-control">
-	</textarea>
+	<textarea class= "form-control" name="kuvaus"></textarea>
 	</div>
 
-	<div class="form-group">
-	<label>Vastausvaihtoehto1</label>
-	<input type="text" class="form-control" value="">		
-	</div>
+    <br>
+    <br>
+    <br>
+    <br>
 
 	<div class="form-group">
-	<label>Vastausvaihtoehto2</label>
-	<input type="text" class="form-control" value="">		
-	</div>
-
-	<div class="form-group">
-	<label>Vastausvaihtoehto3</label>
-	<input type="text" class="form-control" value="">		
-	</div>
-	
-	
-	<p>
-	</p>
-	<p>
-	</p>
-	<p>
-	</p>
-
-	<div class="form-group">
-		<button type="submit" class= "btn btn-primary">Luo aanestys</button>
+		<button type="submit" class= "btn btn-primary">Jatka</button>
 	</div>
 </form>
 

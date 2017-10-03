@@ -33,20 +33,29 @@
   $routes->get('/', function() {
     HelloWorldController::etusivu();
   });
+  
+  $routes->post('/vote/options/:id', function($id) {
+      VoteController::storeOptions($id);
+  });
 
   $routes->post('/vote', function(){
     VoteController::store();
   });
+  
 
-  $routes->get('vote/new', function(){
+  $routes->get('/vote/new', function(){
     VoteController::create();
   });
+  
+  $routes->get('/vote/options/:id', function ($id){
+      VoteController::addOptions();
+  });
 
-  //esittelysivu
-   $routes->get('/vote/:id', function($id){
+    $routes->get('/vote/:id', function($id){
     VoteController::findOne($id);
   });
-//listaussivu
+
+  
   $routes->get('/vote', function(){
     VoteController::index();
   });

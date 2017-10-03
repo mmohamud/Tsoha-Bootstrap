@@ -8,3 +8,13 @@
   max-width: 1200px;
   margin: 0px auto;
 }
+
+.entry:not(:first-of-type)
+{
+    margin-top: 10px;
+}
+
+.glyphicon
+{
+    font-size: 12px;
+}

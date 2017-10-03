@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Vastausvaihtoehdot</h1>
+
+
+<div class="container">
+	<div class="row">
+        <div class="control-group" id="fields">
+              
+            <div class="controls"> 
+                <form role="form" method ="post" action="{{base_path}}/vote/options/{{vote.id}}" autocomplete="off">
+                    <input type="hidden" name="aanestys.id" value="{{aanestys.id}}"/>
+                    <div class="entry input-group col-xs-3">
+                        <input class="form-control" name="fields[]" type="text" placeholder="Kirjoita vaihtoehto" />
+                    	<span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="form-group">
+    <button type="submit" class= "btn btn-primary">Luo äänestys</button>
+</div>
+                </form>
+            <br>
+            
+            </div>
+        </div>
+	</div>
+</div>
+<br>
+</br>
+
+
+
+
+
+
+{% endblock %}

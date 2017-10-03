@@ -6,6 +6,7 @@ Nimi varchar (100) NOT NULL,
 Salasana varchar (50) NOT NULL
 );
 
+
 CREATE TABLE Kategoria(
 id SERIAL PRIMARY KEY,
 Nimi varchar (50)
@@ -23,8 +24,17 @@ Sulkeutumispaiva DATE
 );
 
 
+CREATE TABLE Vaihtoehto(
+id SERIAL PRIMARY KEY,
+Aanestys_id INTEGER REFERENCES Aanestys(id),
+Vaihtoehto varchar (100) NOT NULL
+);
+
+
 CREATE TABLE Aani(
 Kayttaja_id INTEGER REFERENCES Kayttaja(id),
-Aanestys_id INTEGER REFERENCES Aanestys(id)
+Vaihtoehto_id INTEGER REFERENCES Vaihtoehto(id)
 );
+
+
 
