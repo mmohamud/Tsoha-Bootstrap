@@ -3,7 +3,7 @@
 
 <h1>{{aanestys.nimi}}</h1>
 <p>
-<button class="btn btn-danger">Poista</button> <a href="{{base_path}}/Tsoha/votelist/opAanestys/edit" class="btn btn-default">Muokkaa</a>
+<button class="btn btn-danger">Poista</button> <a href="{{base_path}}/vote/{{aanestys.id}}/edit" class="btn btn-default">Muokkaa</a>
 </p>
 
 <ul>
@@ -14,8 +14,15 @@
 </ul>
 <p class="lead">
 	{{aanestys.kuvaus}}</p>
+<br>
+</br>
 
-
+        {%for vaihtoehto in vaihtoehdot%}
+		<tr>
+			
+			<td>{{vaihtoehto.vaihtoehto}}</td>														
+		</tr>
+		{% endfor %}
 
 
 {% endblock %}

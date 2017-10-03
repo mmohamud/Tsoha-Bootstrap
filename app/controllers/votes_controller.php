@@ -17,7 +17,8 @@ class VoteController extends BaseController {
     public static function findOne($id) {
         $aanestys = Aanestys::find($id);
         $aanestys->kategoria_id = Aanestys::getCategoryNames($aanestys->kategoria_id);
-        View::make('Vote/show.html', array('aanestys' => $aanestys));
+        $vaihtoehdot = vaihtoehto::haeVaihtoehdot($id);       
+        View::make('Vote/show.html', array('aanestys' => $aanestys, 'vaihtoehdot' => $vaihtoehdot));
     }
 
     public static function addOptions() {

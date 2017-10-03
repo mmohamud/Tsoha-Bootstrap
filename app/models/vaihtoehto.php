@@ -65,4 +65,23 @@ class vaihtoehto extends BaseModel {
 
        
     }
+    
+    public static function haeVaihtoehdot($aanestys_id) {
+        $query = DB::connection()->prepare('SELECT * FROM Vaihtoehto WHERE aanestys_id = :aanestys_id');
+        $query->execute(array('aanestys_id' => $aanestys_id));
+        
+        $rows = $query->fetchAll();     
+        $Vaihtoehdot = Array();
+        
+        foreach ($rows as $row) {
+            $Vaihtoehdot[] = new Vaihtoehto (array(
+                'id' => $row['id'],
+                'aanestys_id' => $row['aanestys_id'],
+                'vaihtoehto' => $row['vaihtoehto']
+            ));
+        
+        }
+        
+        return $Vaihtoehdot;
+    }
 }
