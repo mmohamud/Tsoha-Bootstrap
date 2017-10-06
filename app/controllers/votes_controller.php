@@ -3,6 +3,7 @@
 class VoteController extends BaseController {
 
     public static function index() {
+        
         $aanestykset = Aanestys::all();
         foreach ($aanestykset as $aanestys) {
             $aanestys->kategoria_id = Aanestys::getCategoryNames($aanestys->kategoria_id);
@@ -11,10 +12,12 @@ class VoteController extends BaseController {
     }
 
     public static function create() {
+        self::check_logged_in();
         View::make('Vote/newVote.html');
     }
 
     public static function findOne($id) {
+        self::check_logged_in();
         $aanestys = Aanestys::find($id);
         $aanestys->kategoria_id = Aanestys::getCategoryNames($aanestys->kategoria_id);
         $vaihtoehdot = vaihtoehto::haeVaihtoehdot($id);       
@@ -22,14 +25,17 @@ class VoteController extends BaseController {
     }
 
     public static function addOptions() {
+        self::check_logged_in();
         View::make('Vote/vastausvaihtoehdot.html');
     }
 
     public static function edit($id) {
+        
         $aanestys = Aanestys::find($id);
     }
 
     public static function store() {
+        
         $params = $_POST;
 
         $kategoria;
@@ -48,23 +54,34 @@ class VoteController extends BaseController {
         }
 
 
-        $vote = new Aanestys(array(
+        $attributes = (array(
             'nimi' => $params['nimi'],
             'kategoria_id' => $kategoria->id,
             'sulkeutumispaiva' => $params['sulkeutumispaiva'],
             'kuvaus' => $params['kuvaus']
         ));
 
-        Kint::dump($params);
+//        Kint::dump($params);
+        $vote = new Aanestys($attributes);
+        $errors = $vote->errors();
+        
+        if(count($errors) == 0) {
+            $vote->save();
+            Redirect::to('/vote/options/' . $vote->id, array('message' => 'Lisää vielä vaihtoehdot', 'vote' => $vote));
+        } else {
+            View::make('/Vote/newVote.html', array('errors' => $errors, 'attributes' => $attributes));
+        }
+        
 
-        $vote->save();
+        
 
         //View::make('Vote/vastausvaihtoehdot.html');
-        Redirect::to('/vote/options/' . $vote->id, array('message' => 'Lisää vielä vaihtoehdot', 'vote' => $vote));
+        
 //        View::make('Vote/vastausvaihtoehdot.html', array('message' => 'Lisää vielä vaihtoehdot', 'vote' => $vote));
     }
 
     public static function storeOptions($id) {
+        
         $params = $_POST;
 
         foreach ($params['fields'] as $row) {
@@ -83,10 +100,7 @@ class VoteController extends BaseController {
         
         $aanestys = new Aanestys (array('id' => $id));
         $aanestys->destroy();
-        
-        
-        
-        
+
     }
 
 }

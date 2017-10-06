@@ -108,7 +108,7 @@ class Aanestys extends BaseModel {
             $errors[] = 'Nimi saa olla enintään 50 merkkiä pitkä!';
         }
         if (strlen($this->nimi) < 5) {
-            $errors[] = 'Nimen pituuden tulee olla vähintään 5 merkkiä piktä!';
+            $errors[] = 'Nimen pituuden tulee olla vähintään 5 merkkiä pitkä!';
         }
         return $errors;
     }

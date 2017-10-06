@@ -15,13 +15,13 @@ class HelloWorldController extends BaseController {
 //      Kint::dump($esimAanestys);
 //      Kint::dump($Aanestykset);
 
-        $virheAanestys = new Aanestys(array(
-            'nimi' => 'd',
-            'kuvaus' => 'j'
-        ));
-        $errors = $virheAanestys->errors();
-
-        Kint::dump($errors);
+//        $virheAanestys = new Aanestys(array(
+//            'nimi' => 'd',
+//            'kuvaus' => 'j'
+//        ));
+//        $errors = $virheAanestys->errors();
+//
+//        Kint::dump($errors);
     }
 
     public static function äänestyssivu() {

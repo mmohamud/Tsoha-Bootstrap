@@ -16,9 +16,9 @@ $routes->get('/votelist/opAanestys/edit', function() {
     HelloWorldController::muokkaussivu();
 });
 
-$routes->get('/login', function() {
-    HelloWorldController::kirjautumissivu();
-});
+//$routes->get('/login', function() {
+//    HelloWorldController::kirjautumissivu();
+//});
 
 $routes->get('/register', function() {
     HelloWorldController::rekisteröitymissivu();
@@ -64,7 +64,15 @@ $routes->post('/vote/:id/destroy', function($id) {
     Redirect::to('/vote', array('message' => 'Äänestys on poistettu!'));
 });
 
-//$routes - get('/login', function() {
-//    UserController::login();
-//});
+$routes ->get('/login', function() {
+    UserController::login();
+});
+
+$routes->post('/login', function(){
+    UserController::handle_login();
+});
+
+$routes->post('/logout', function(){
+    UserController::logout();
+});
 
