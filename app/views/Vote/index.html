@@ -10,10 +10,9 @@
 		<tr>
 			<th>Nimi</th>			
 			<th>Kategoria</th>
-			<th>Alkamispäivä</th>
 			<th>Status</th>					
 			<th>Sulkeutumispäivä</th>
-			<th></th>
+<!--			<th></th>-->
 		</tr>
 	</thead>
 
@@ -23,7 +22,6 @@
 		<tr>
 			<td><a href="{{base_path}}/vote/{{aanestys.id}}">{{aanestys.nimi}}</td>
 			<td>{{aanestys.kategoria_id}}</td>
-			<td>{{aanestys.alkamispaiva}}</td>
 			<td>
 				{% if aanestys.kaynnissa %}
 				<label class="label label-success">Käynnissä
@@ -32,8 +30,8 @@
 						{% endif %}
 					</td>
 			<td>{{aanestys.sulkeutumispaiva}}</td>						
-			<th><a class="btn btn-default btn-sm" href="{{base_path}}/vote/{{aanestys.id}}/edit">Muokkaa</a></th>
-		</tr>
+<!--			<th><a class="btn btn-default btn-sm" href="{{base_path}}/vote/{{aanestys.id}}/edit">Muokkaa</a></th>
+		</tr>-->
 		{% endfor %}
 	</tbody>
 </table>

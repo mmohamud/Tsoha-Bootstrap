@@ -5,7 +5,8 @@ class vaihtoehto extends BaseModel {
     public $id, $aanestys_id, $vaihtoehto;
     
     public function _construct($attributes) {
-        parent::_construct($attributes);
+        parent::construct($attributes);
+        $this->validators = array(validate_vaihtoehto);
     }
     
     public static function all() {
@@ -84,4 +85,14 @@ class vaihtoehto extends BaseModel {
         
         return $Vaihtoehdot;
     }
+    
+//    public function validate_vaihtoehto() {
+//        $errors = array();
+//        if($this->vaihtoehto == '' || $this->vaihtoehto == null) {
+//            $errors[] = 'Vaihtoehto ei voi olla tyhjä!';
+//        }
+//        if(strlen($this->vaihtoehto)> 100) {
+//            $errors[] = 'Vaihtoehto saa olla enintään 100 merkkiä pitkä!';
+//        }
+//    }
 }

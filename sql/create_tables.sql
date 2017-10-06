@@ -18,8 +18,6 @@ Kategoria_id INTEGER REFERENCES Kategoria(id),
 Nimi varchar (50) NOT NULL,
 Kuvaus varchar (400) NOT NULL,
 Kaynnissa boolean,
-Yksityinen boolean DEFAULT FALSE,
-Alkamispaiva DATE,
 Sulkeutumispaiva DATE
 );
 
@@ -32,6 +30,7 @@ Vaihtoehto varchar (100) NOT NULL
 
 
 CREATE TABLE Aani(
+id SERIAL PRIMARY KEY,
 Kayttaja_id INTEGER REFERENCES Kayttaja(id),
 Vaihtoehto_id INTEGER REFERENCES Vaihtoehto(id)
 );

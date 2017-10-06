@@ -1,34 +1,29 @@
 <?php
 
-class Aanestys extends BaseModel {
+class Aani extends BaseModel {
 
-    public $id, $kategoria_id, $nimi, $kuvaus, $kaynnissa, $sulkeutumispaiva;
+    public $kayttaja_id, $vaihtoehto_id;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_nimi', 'validate_kuvaus');
         
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Aanestys');
+        $query = DB::connection()->prepare('SELECT * FROM Aani');
 
         $query->execute();
 
         $rows = $query->fetchAll();
-        $Aanestykset = Array();
+        $$Aanet = Array();
 
         foreach ($rows as $row) {
-            $Aanestykset[] = new Aanestys(array(
-                'id' => $row['id'],
-                'kategoria_id' => $row['kategoria_id'],
-                'nimi' => $row['nimi'],
-                'kuvaus' => $row['kuvaus'],
-                'kaynnissa' => $row['kaynnissa'],
-                'sulkeutumispaiva' => $row['sulkeutumispaiva']
+            $$Aanet[] = new Aani(array(
+                'kayttaja_id' => $row['kayttaja_id'],
+                'vaihtoehto_id' => $row['vaihtoehto_id']           
             ));
         }
-        return $Aanestykset;
+        return $$Aanet;
     }
 
     public static function find($id) {
@@ -43,6 +38,8 @@ class Aanestys extends BaseModel {
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'kaynnissa' => $row['kaynnissa'],
+                'yksityinen' => $row['yksityinen'],
+                'alkamispaiva' => $row['alkamispaiva'],
                 'sulkeutumispaiva' => $row['sulkeutumispaiva']
             ));
             return $Aanestys;
@@ -62,9 +59,9 @@ class Aanestys extends BaseModel {
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO aanestys (nimi, kategoria_id, sulkeutumispaiva, kuvaus) VALUES (:nimi, :kategoria_id, :sulkeutumispaiva, :kuvaus) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO aanestys (nimi, kategoria_id, alkamispaiva, sulkeutumispaiva, kuvaus) VALUES (:nimi, :kategoria_id, :alkamispaiva, :sulkeutumispaiva, :kuvaus) RETURNING id');
 
-        $query->execute(array('nimi' => $this->nimi, 'kategoria_id' => $this->kategoria_id, 'sulkeutumispaiva' => $this->sulkeutumispaiva, 'kuvaus' => $this->kuvaus));
+        $query->execute(array('nimi' => $this->nimi, 'kategoria_id' => $this->kategoria_id, 'alkamispaiva' => $this->alkamispaiva, 'sulkeutumispaiva' => $this->sulkeutumispaiva, 'kuvaus' => $this->kuvaus));
 
         $row = $query->fetch();
  
@@ -99,30 +96,7 @@ class Aanestys extends BaseModel {
         }
     }
     
-    public function validate_nimi() {
-        $errors = array();
-        if($this->nimi == '' || $this->nimi == null) {
-            $errors[] = 'Äänestyksen nimi ei voi olla tyhjä!';
-        }
-        if (strlen($this->nimi) > 50) {
-            $errors[] = 'Nimi saa olla enintään 50 merkkiä pitkä!';
-        }
-        if (strlen($this->nimi) < 5) {
-            $errors[] = 'Nimen pituuden tulee olla vähintään 5 merkkiä piktä!';
-        }
-        return $errors;
-    }
-    
-    public function validate_kuvaus() {
-        $errors = array();
-        if($this->kuvaus == '' || $this->kuvaus == null) {
-            $errors[] = 'Lisää kuvaus!';
-        }
-        if (strlen($this->kuvaus) > 400) {
-            $errors[] = 'Kuvaus saa olla enintään 400 merkkiä pitkä!';
-        }
-        return $errors;
-    }
+
     
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Vaihtoehto WHERE aanestys_id = :aanestys_id');

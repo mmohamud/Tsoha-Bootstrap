@@ -2,27 +2,46 @@
 {% block content %}
 
 <h1>{{aanestys.nimi}}</h1>
-<p>
-<button class="btn btn-danger">Poista</button> <a href="{{base_path}}/vote/{{aanestys.id}}/edit" class="btn btn-default">Muokkaa</a>
-</p>
+<!--<p>
+<a href="{{base_path}}/vote/{{aanestys.id}}/destroy" class="btn btn-danger">Poista</a> <a href="{{base_path}}/vote/{{aanestys.id}}/edit" class="btn btn-default">Muokkaa</a>
+</p>-->
 
-<ul>
-	
-	<li><strong>Alkamispäivä:</strong>{{aanestys.alkamispaiva}}</li>
-	<li><strong>Kategoria:</strong>{{aanestys.kategoria_id}}</li>
-	<li><strong>Sulkeutumispäivä: </strong>{{aanestys.sulkeutumispaiva}}</li>
-</ul>
-<p class="lead">
-	{{aanestys.kuvaus}}</p>
+<form 
+    method="post" action="{{base_path}}/vote/{{aanestys.id}}/destroy" style="display: inline-block;">
+    <button type="submit" class="btn btn-danger">Poista</button>
+
+</form>
 <br>
 </br>
 
-        {%for vaihtoehto in vaihtoehdot%}
-		<tr>
-			
-			<td>{{vaihtoehto.vaihtoehto}}</td>														
-		</tr>
-		{% endfor %}
+<ul>
+
+    <li><strong>Kategoria:</strong>{{aanestys.kategoria_id}}</li>
+    <li><strong>Sulkeutumispäivä: </strong>{{aanestys.sulkeutumispaiva}}</li>
+</ul>
+<br>
+</br>
+<blockquote>
+<p>
+    {{aanestys.kuvaus}}
+</p>
+</blockquote>
+<br>
+</br>
 
 
-{% endblock %}
+<form method="post" action="{{base_path}}/vote/{{aanestys.id}}/add" style="display: inline-block;">
+{%for vaihtoehto in vaihtoehdot%}
+
+    
+        <input type="radio" name="Vaihtoehto" value="{{vaihtoehto.id}}"> {{vaihtoehto.vaihtoehto}}<br>
+        
+        <!--<td>{{vaihtoehto.vaihtoehto}}</td>-->														
+    
+    {% endfor %}
+    <br>
+    </br>
+    <button type="submit" class="btn btn-default">Äänestä</button>
+</form>
+
+    {% endblock %}

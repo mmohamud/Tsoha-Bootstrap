@@ -51,7 +51,6 @@ class VoteController extends BaseController {
         $vote = new Aanestys(array(
             'nimi' => $params['nimi'],
             'kategoria_id' => $kategoria->id,
-            'alkamispaiva' => $params['alkamispaiva'],
             'sulkeutumispaiva' => $params['sulkeutumispaiva'],
             'kuvaus' => $params['kuvaus']
         ));
@@ -78,6 +77,16 @@ class VoteController extends BaseController {
         }
 
         Redirect::to('/vote/' . $id, array('message' => 'Äänestys on nyt lisätty'));
+    }
+    
+    public static function destroy($id) {
+        
+        $aanestys = new Aanestys (array('id' => $id));
+        $aanestys->destroy();
+        
+        
+        
+        
     }
 
 }
