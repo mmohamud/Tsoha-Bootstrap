@@ -1,7 +1,7 @@
 <?php
 
 
-class vaihtoehto extends BaseModel {
+class Vaihtoehto extends BaseModel {
     public $id, $aanestys_id, $vaihtoehto;
     
     public function _construct($attributes) {
@@ -53,9 +53,7 @@ class vaihtoehto extends BaseModel {
             ));
             return $Vaihtoehto;
         }
-        return null;
-        
-        
+        return null;    
     }
     
     
@@ -86,13 +84,13 @@ class vaihtoehto extends BaseModel {
         return $Vaihtoehdot;
     }
     
-//    public function validate_vaihtoehto() {
-//        $errors = array();
-//        if($this->vaihtoehto == '' || $this->vaihtoehto == null) {
-//            $errors[] = 'Vaihtoehto ei voi olla tyhjä!';
-//        }
-//        if(strlen($this->vaihtoehto)> 100) {
-//            $errors[] = 'Vaihtoehto saa olla enintään 100 merkkiä pitkä!';
-//        }
-//    }
+    public function validate_vaihtoehto() {
+        $errors = array();
+        if($this->vaihtoehto == '' || $this->vaihtoehto == null) {
+            $errors[] = 'Vaihtoehto ei voi olla tyhjä!';
+        }
+        if(strlen($this->vaihtoehto)> 100) {
+            $errors[] = 'Vaihtoehto saa olla enintään 100 merkkiä pitkä!';
+        }
+    }
 }

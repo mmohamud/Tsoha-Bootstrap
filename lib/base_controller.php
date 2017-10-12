@@ -7,7 +7,6 @@
         
         if(isset($_SESSION['kayttaja'])) {
             
-            
             $kayttaja_id = $_SESSION['kayttaja'];
 //            Kint::dump($kayttaja);
             

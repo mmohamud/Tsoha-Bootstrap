@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Luo äänestys</h1>
+<h1>Muokkaa äänestystä</h1>
 
 
 {% if errors %}
@@ -14,7 +14,7 @@
 {% endif %}
 
 
-<form method="post" action="{{base_path}}/vote">
+<form method="post" action="{{base_path}}/vote/{{attributes.id}}/edit">
 	
 	<div class="form-group">
             <label class="control-label">Nimi</label>
@@ -23,10 +23,10 @@
 	<p>
 	</p>
         
-        <div class="form-group">
+<!--        <div class="form-group">
             <label class="control-label">Kategoria</label>
             <input type="text" name="kategoria" class="form-control" value="{{attributes.kategoria}}">
-	</div>
+	</div>-->
 
 
 	<div class="form-group">
@@ -45,7 +45,7 @@
     </br>
 
 	<div class="form-group">
-		<button type="submit" class= "btn btn-primary">Jatka</button>
+		<button type="submit" class= "btn btn-primary">Päivitä</button>
 	</div>
 </form>
 

@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+{% block content %}
+  {% if (user_logged_in.kayttajatunnus == kayttaja.kayttajatunnus) or (user_logged_in.admin) %}
+    <h1>Käyttäjän {{kayttaja.nimi}} tiedot</h1>
+    </br>
+    </br>
+    </br>
+    
+    <ul>
+    <li><strong>Käyttäjätunnus: </strong>{{kayttaja.kayttajatunnus}}</li>
+    <li><strong>Nimi: </strong>{{kayttaja.nimi}}</li>
+    </ul>
+    
+    
+    <form 
+    method="post" action="{{base_path}}/user/{{kayttaja.id}}/destroy" style="display: inline-block;">
+    <button type="submit" class="btn btn-danger">Poista käyttäjä</button>
+    <a href="{{base_path}}/user/{{kayttaja.id}}/edit" class="btn btn-default">Muokkaa käyttäjän tietoja</a>
+</form>
+  {% endif %}
+  
+   <!--...--> 
+{% endblock %}
+

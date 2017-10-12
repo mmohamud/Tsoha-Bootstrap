@@ -35,6 +35,3 @@ id SERIAL PRIMARY KEY,
 Kayttaja_id INTEGER REFERENCES Kayttaja(id),
 Vaihtoehto_id INTEGER REFERENCES Vaihtoehto(id)
 );
-
-
-

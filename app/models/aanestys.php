@@ -70,6 +70,17 @@ class Aanestys extends BaseModel {
  
         $this->id = $row['id'];
     }
+    
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Aanestys SET nimi = :nimi, sulkeutumispaiva = :sulkeutumispaiva, kuvaus = :kuvaus WHERE id = :id');
+
+//        $query->execute(array('nimi' => $this->nimi, 'kategoria_id' => $this->kategoria_id, 'sulkeutumispaiva' => $this->sulkeutumispaiva, 'kuvaus' => $this->kuvaus));
+        $query->execute(array('nimi' => $this->nimi, 'sulkeutumispaiva' => $this->sulkeutumispaiva, 'kuvaus' => $this->kuvaus, 'id' => $this->id));
+
+//        $row = $query->fetch();
+// 
+//        $this->id = $row['id'];
+    }
 
     
         public static function findNimi($nimi) {

@@ -20,7 +20,7 @@ class VoteController extends BaseController {
         self::check_logged_in();
         $aanestys = Aanestys::find($id);
         $aanestys->kategoria_id = Aanestys::getCategoryNames($aanestys->kategoria_id);
-        $vaihtoehdot = vaihtoehto::haeVaihtoehdot($id);       
+        $vaihtoehdot = Vaihtoehto::haeVaihtoehdot($id);       
         View::make('Vote/show.html', array('aanestys' => $aanestys, 'vaihtoehdot' => $vaihtoehdot));
     }
 
@@ -29,9 +29,18 @@ class VoteController extends BaseController {
         View::make('Vote/vastausvaihtoehdot.html');
     }
 
-    public static function edit($id) {
-        
+    public static function edit($id) {  
+//        self::check_logged_in();
         $aanestys = Aanestys::find($id);
+        
+        $attributes = array(
+            'nimi' => $aanestys->nimi,
+            'sulkeutumispaiva' => $aanestys->sulkeutumispaiva,
+            'kuvaus' => $aanestys->kuvaus,
+            'id' => $id
+        );
+        
+        View::make('Vote/editVote.html', array('attributes' => $aanestys));
     }
 
     public static function store() {
@@ -79,6 +88,47 @@ class VoteController extends BaseController {
         
 //        View::make('Vote/vastausvaihtoehdot.html', array('message' => 'Lisää vielä vaihtoehdot', 'vote' => $vote));
     }
+    
+    public static function update($id) {
+        $params = $_POST;
+
+//        $kategoria;
+//
+//        if (isset($params['kategoria'])) {
+//            $nimi = $params['kategoria'];
+//
+//            $kategoria = Kategoria::findNimi($nimi);
+//        }
+//
+//        if ($kategoria == null) {
+//            $kategoria = new Kategoria(array(
+//                'nimi' => $params['kategoria']
+//            ));
+//            $kategoria->save();
+//        }
+
+
+        $attributes = (array(          
+            'nimi' => $params['nimi'],
+//            'kategoria_id' => $kategoria->id,
+            'sulkeutumispaiva' => $params['sulkeutumispaiva'],
+            'kuvaus' => $params['kuvaus'],
+            'id' => $id
+        ));
+
+        $vote = new Aanestys($attributes);
+        $errors = $vote->errors();
+        
+        if(count($errors) == 0) {
+            $vote->update();
+//            Redirect::to('/vote/:id/' . $vote->id, array('message' => 'Äänestystä muokattu!', 'vote' => $vote));
+            Redirect::to('/vote/'. $id, array('message' =>  'Äänestystä muokattu!'));
+        } else {
+//            $vote->update();
+            View::make('/Vote/editVote.html', array('errors' => $errors, 'attributes' => $attributes));
+//            Redirect::to('/vote/:id/' . $vote->id, array('message' => 'Äänestystä muokattu!', 'vote' => $vote));
+        }
+    }
 
     public static function storeOptions($id) {
         
@@ -96,8 +146,7 @@ class VoteController extends BaseController {
         Redirect::to('/vote/' . $id, array('message' => 'Äänestys on nyt lisätty'));
     }
     
-    public static function destroy($id) {
-        
+    public static function destroy($id) {       
         $aanestys = new Aanestys (array('id' => $id));
         $aanestys->destroy();
 
