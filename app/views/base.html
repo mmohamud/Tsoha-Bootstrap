@@ -41,20 +41,27 @@
                         <!-- Navigaation linkit -->
                         <li><a href="/Tsoha/vote">Äänestykset</a></li>
                     </ul>
+
+
+                    {% if user_logged_in.admin %}
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="/Tsoha/users">Käyttäjät</a></li>
+                        </ul>
                     
-                    
+                    {% endif %}
+
                     {% if user_logged_in %}
-<!--                          <form class="navbar-form navbar-right" action="{{base_path}}/logout" method="post">
-                              <button class="btn btn-default" type="submit">Kirjaudu ulos</button>-->
-                                <ul class="nav navbar-nav navbar-right">
-                                    <li><a href="{{base_path}}/user/{{user_logged_in.id}}">Omat tiedot</a></li>
-                                <li><a href="{{base_path}}/logout">Kirjaudu ulos</a></li>
-<!--                                </form>-->                           
-                                </ul>                         
+                    <!--                          <form class="navbar-form navbar-right" action="{{base_path}}/logout" method="post">
+                                                  <button class="btn btn-default" type="submit">Kirjaudu ulos</button>-->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{base_path}}/user/{{user_logged_in.id}}">Omat tiedot</a></li>
+                        <li><a href="{{base_path}}/logout">Kirjaudu ulos</a></li>
+                        <!--                                </form>-->                           
+                    </ul> 
                     {% else %}
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/Tsoha/login">Kirjaudu sisään</a></li>
-                        
+
                         <li><a href="/Tsoha/register">Rekisteröidy</a></li>
                     </ul>
                     {% endif %}
@@ -78,29 +85,29 @@
         <script src="{{base_path}}/assets/js/site.js"></script>
 
         <script>
-  $(function ()
-  {
-      $(document).on('click', '.btn-add', function (e)
-      {
-          e.preventDefault();
+$(function ()
+{
+    $(document).on('click', '.btn-add', function (e)
+    {
+        e.preventDefault();
 
-          var controlForm = $('.controls form:first'),
-                  currentEntry = $(this).parents('.entry:first'),
-                  newEntry = $(currentEntry.clone()).appendTo(controlForm);
+        var controlForm = $('.controls form:first'),
+                currentEntry = $(this).parents('.entry:first'),
+                newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-          newEntry.find('input').val('');
-          controlForm.find('.entry:not(:last) .btn-add')
-                  .removeClass('btn-add').addClass('btn-remove')
-                  .removeClass('btn-success').addClass('btn-danger')
-                  .html('<span class="glyphicon glyphicon-minus"></span>');
-      }).on('click', '.btn-remove', function (e)
-      {
-          $(this).parents('.entry:first').remove();
+        newEntry.find('input').val('');
+        controlForm.find('.entry:not(:last) .btn-add')
+                .removeClass('btn-add').addClass('btn-remove')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('<span class="glyphicon glyphicon-minus"></span>');
+    }).on('click', '.btn-remove', function (e)
+    {
+        $(this).parents('.entry:first').remove();
 
-          e.preventDefault();
-          return false;
-      });
-  });
+        e.preventDefault();
+        return false;
+    });
+});
         </script>
         {% endblock %}
     </body>

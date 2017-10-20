@@ -2,6 +2,12 @@
 {% extends "base.html" %}
 {% block content %}
   {% if (user_logged_in.kayttajatunnus == kayttaja.kayttajatunnus) or (user_logged_in.admin) %}
+  {% if message != null %}
+<br>
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
     <h1>Käyttäjän {{kayttaja.nimi}} tiedot</h1>
     </br>
     </br>

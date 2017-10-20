@@ -1,14 +1,16 @@
 <?php
 
 class Kayttaja extends BaseModel {
-    
+
     public $id, $kayttajatunnus, $nimi, $salasana, $admin;
-    
+
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_kayttajatunnus', 'validate_nimi', 'validate_salasana', 'validate_uusi_tunnus');       
+//        $this->validators = array('validate_kayttajatunnus', 'validate_nimi', 'validate_salasana', 'validate_uusi_tunnus');
+        $this->validators = array('validate_kayttajatunnus', 'validate_nimi', 'validate_salasana');
     }
     
+
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja');
         $query->execute();
@@ -16,6 +18,7 @@ class Kayttaja extends BaseModel {
         $kayttajat = array();
         foreach ($rows as $row) {
             $kayttajat[] = new Kayttaja(array(
+                'id' =>$row['id'],
                 'kayttajatunnus' => $row['kayttajatunnus'],
                 'nimi' => $row['nimi'],
                 'salasana' => $row['salasana'],
@@ -24,7 +27,7 @@ class Kayttaja extends BaseModel {
         }
         return $kayttajat;
     }
-    
+
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
@@ -42,17 +45,23 @@ class Kayttaja extends BaseModel {
         }
         return null;
     }
-    
+
+
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Kayttaja(kayttajatunnus, nimi, salasana, admin) VALUES (:kayttajatunnus, :nimi, :salasana, :admin)');
+        $query = DB::connection()->prepare('INSERT INTO Kayttaja(kayttajatunnus, nimi, salasana, admin) VALUES (:kayttajatunnus, :nimi, :salasana, :admin) RETURNING id');
         $query->execute(array('kayttajatunnus' => $this->kayttajatunnus, 'nimi' => $this->nimi, 'salasana' => $this->salasana, 'admin' => $this->admin));
+        
+        $row = $query->fetch();
+        // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
+        $this->id = $row['id'];
+        return $this;
     }
-    
+
     public static function authenticate($kayttajatunnus, $salasana) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE kayttajatunnus = :kayttajatunnus AND salasana = :salasana LIMIT 1');
         $query->execute(array('kayttajatunnus' => $kayttajatunnus, 'salasana' => $salasana));
         $row = $query->fetch();
-        
+
         if ($row) {
             $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
@@ -62,20 +71,28 @@ class Kayttaja extends BaseModel {
                 'admin' => $row['admin']
             ));
             return $kayttaja;
-        } 
-            return null;
-        
+        }
+        return null;
     }
-    
+
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Kayttaja SET nimi = :nimi, salasana = :salasana, admin = :admin WHERE id = :id');
-        $query->execute(array('nimi' => $this->nimi, 'salasana' => $this->salasana, 'admin' => $this->salasana));
+        $query = DB::connection()->prepare('UPDATE Kayttaja SET nimi = :nimi, salasana = :salasana WHERE id = :id');
+//        $query = DB::connection()->prepare('UPDATE Kayttaja SET nimi = :nimi, salasana = :salasana, admin = :admin WHERE id = :id');
+        $query->execute(array('nimi' => $this->nimi, 'salasana' => $this->salasana, 'id' => $this->id));
+//        $query->execute(array('nimi' => $this->nimi, 'salasana' => $this->salasana, 'admin' => $this->admin, 'id' => $this->id));
     }
-        
     
-        public function validate_kayttajatunnus() {
+    public function destroy() {
+
+        
+        $query = DB::connection()->prepare('DELETE FROM Kayttaja WHERE id = :id');
+        $query->execute(array('id' => $this->id));
+        
+    }
+
+    public function validate_kayttajatunnus() {
         $errors = array();
-        if($this->kayttajatunnus == '' || $this->kayttajatunnus == null) {
+        if ($this->kayttajatunnus == '' || $this->kayttajatunnus == null) {
             $errors[] = 'Käyttäjätunnus ei voi olla tyhjä!';
         }
         if (strlen($this->kayttajatunnus) > 50) {
@@ -86,25 +103,25 @@ class Kayttaja extends BaseModel {
         }
         return $errors;
     }
-    
+
     public function validate_nimi() {
         $errors = array();
-        if($this->nimi == '' || $this->nimi == null) {
-            $errors[] = 'Käyttäjätunnus ei voi olla tyhjä!';
+        if ($this->nimi == '' || $this->nimi == null) {
+            $errors[] = 'Nimi ei voi olla tyhjä!';
         }
-        if (strlen($this->kayttajatunnus) > 100) {
+        if (strlen($this->nimi) > 100) {
             $errors[] = 'Nimi saa olla enintään 50 merkkiä pitkä!';
         }
-        if (strlen($this->kayttajatunnus) < 5) {
-            $errors[] = 'Käyttäjätunnuksen pituuden tulee olla vähintään 5 merkkiä pitkä!';
+        if (strlen($this->nimi) < 5) {
+            $errors[] = 'Nimen pituuden tulee olla vähintään 5 merkkiä pitkä!';
         }
         return $errors;
     }
-    
+
     public function validate_salasana() {
         $errors = array();
-        if($this->salasana == '' || $this->kayttajatunnus == null) {
-            $errors[] = 'Käyttäjätunnus ei voi olla tyhjä!';
+        if ($this->salasana == '' || $this->salasana == null) {
+            $errors[] = 'Salasana ei voi olla tyhjä!';
         }
         if (strlen($this->salasana) > 50) {
             $errors[] = 'Salasana saa olla enintään 50 merkkiä pitkä!';
@@ -114,7 +131,7 @@ class Kayttaja extends BaseModel {
         }
         return $errors;
     }
-    
+
     public function validate_uusi_tunnus() {
         $errors = array();
         $varatutTunnukset = Kayttaja::all();
@@ -127,10 +144,8 @@ class Kayttaja extends BaseModel {
         }
         return $errors;
     }
+
 }
-
-
-
 
 /* 
  * To change this license header, choose License Headers in Project Properties.

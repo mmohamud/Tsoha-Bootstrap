@@ -10,6 +10,9 @@
               
             <div class="controls"> 
                 <form role="form" method ="post" action="{{base_path}}/vote/options/{{vote.id}}" autocomplete="off">
+                    <div class="form-group">
+    <button type="submit" class= "btn btn-primary">Luo äänestys</button>
+</div>
                     <input type="hidden" name="aanestys.id" value="{{aanestys.id}}"/>
                     <div class="entry input-group col-xs-3">
                         <input class="form-control" name="fields[]" type="text" placeholder="Kirjoita vaihtoehto" />
@@ -19,12 +22,11 @@
                             </button>
                         </span>
                     </div>
-                    <div class="form-group">
-    <button type="submit" class= "btn btn-primary">Luo äänestys</button>
-</div>
+                                
                 </form>
+                
             <br>
-            
+
             </div>
         </div>
 	</div>

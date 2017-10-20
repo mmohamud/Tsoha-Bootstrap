@@ -5,8 +5,8 @@ class Vaihtoehto extends BaseModel {
     public $id, $aanestys_id, $vaihtoehto;
     
     public function _construct($attributes) {
-        parent::construct($attributes);
-        $this->validators = array(validate_vaihtoehto);
+        parent::__construct($attributes);
+        $this->validators = array('validate_vaihtoehto');
     }
     
     public static function all() {
@@ -56,6 +56,17 @@ class Vaihtoehto extends BaseModel {
         return null;    
     }
     
+    public static function findNUmberOfVotes($id) {
+        $query = DB::connection()->prepare('SELECT COUNT (Aani.id) AS lukumaara FROM Aani WHERE Aani.vaihtoehto_id = :id');
+        $query->execute(array('id' => $id));
+        $row = $query->fetch();
+        return $row['lukumaara'];
+        
+        $Aanet = Array();
+        
+        return $row['lukumaara'];
+    }
+    
     
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO vaihtoehto (aanestys_id, vaihtoehto) VALUES (:aanestys_id, :vaihtoehto)');
@@ -93,4 +104,6 @@ class Vaihtoehto extends BaseModel {
             $errors[] = 'Vaihtoehto saa olla enintään 100 merkkiä pitkä!';
         }
     }
+    
+    
 }

@@ -8,7 +8,6 @@
         if(isset($_SESSION['kayttaja'])) {
             
             $kayttaja_id = $_SESSION['kayttaja'];
-//            Kint::dump($kayttaja);
             
             $kayttaja = Kayttaja::find($kayttaja_id);
             return $kayttaja;

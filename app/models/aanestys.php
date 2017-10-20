@@ -2,12 +2,11 @@
 
 class Aanestys extends BaseModel {
 
-    public $id, $kategoria_id, $nimi, $kuvaus, $kaynnissa, $sulkeutumispaiva;
+    public $id, $kategoria_id, $kayttaja_id, $nimi, $kuvaus, $kaynnissa, $sulkeutumispaiva;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_nimi', 'validate_kuvaus');
-        
+        $this->validators = array('validate_kuvaus', 'validate_nimi');       
     }
 
     public static function all() {
@@ -22,6 +21,7 @@ class Aanestys extends BaseModel {
             $Aanestykset[] = new Aanestys(array(
                 'id' => $row['id'],
                 'kategoria_id' => $row['kategoria_id'],
+                'kayttaja_id' => $row['kayttaja_id'],
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'kaynnissa' => $row['kaynnissa'],
@@ -40,6 +40,7 @@ class Aanestys extends BaseModel {
             $Aanestys = new Aanestys(array(
                 'id' => $row['id'],
                 'kategoria_id' => $row['kategoria_id'],
+                'kayttaja_id' => $row['kayttaja_id'],
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'kaynnissa' => $row['kaynnissa'],
@@ -48,6 +49,17 @@ class Aanestys extends BaseModel {
             return $Aanestys;
         }
         return null;
+    }
+    
+    public static function getUserName($id) {
+        $query = DB::connection()->prepare('SELECT nimi FROM Kayttaja WHERE id = :id');
+        $query->execute(array('id' => $id));
+        
+        $row = $query->fetch();
+
+        if ($row) {
+            return $row['nimi'];
+        }
     }
     
     public static function getCategoryNames($id) {
@@ -61,10 +73,13 @@ class Aanestys extends BaseModel {
         }
     }
 
-    public function save() {
-        $query = DB::connection()->prepare('INSERT INTO aanestys (nimi, kategoria_id, sulkeutumispaiva, kuvaus) VALUES (:nimi, :kategoria_id, :sulkeutumispaiva, :kuvaus) RETURNING id');
+    public function save() {      
+        
+        $kayttaja = BaseController::get_user_logged_in();
+        
+        $query = DB::connection()->prepare('INSERT INTO aanestys (nimi, kategoria_id, kayttaja_id, sulkeutumispaiva, kuvaus) VALUES (:nimi, :kategoria_id, :kayttaja_id, :sulkeutumispaiva, :kuvaus) RETURNING id');
 
-        $query->execute(array('nimi' => $this->nimi, 'kategoria_id' => $this->kategoria_id, 'sulkeutumispaiva' => $this->sulkeutumispaiva, 'kuvaus' => $this->kuvaus));
+        $query->execute(array('nimi' => $this->nimi, 'kategoria_id' => $this->kategoria_id, 'kayttaja_id' => $this->kayttaja_id, 'sulkeutumispaiva' => $this->sulkeutumispaiva, 'kuvaus' => $this->kuvaus));
 
         $row = $query->fetch();
  
@@ -77,9 +92,6 @@ class Aanestys extends BaseModel {
 //        $query->execute(array('nimi' => $this->nimi, 'kategoria_id' => $this->kategoria_id, 'sulkeutumispaiva' => $this->sulkeutumispaiva, 'kuvaus' => $this->kuvaus));
         $query->execute(array('nimi' => $this->nimi, 'sulkeutumispaiva' => $this->sulkeutumispaiva, 'kuvaus' => $this->kuvaus, 'id' => $this->id));
 
-//        $row = $query->fetch();
-// 
-//        $this->id = $row['id'];
     }
 
     
@@ -110,7 +122,18 @@ class Aanestys extends BaseModel {
         }
     }
     
-    public function validate_nimi() {
+        public function validate_kuvaus() {
+        $errors = array();
+        if($this->kuvaus == '' || $this->kuvaus == null) {
+            $errors[] = 'Lisää kuvaus!';
+        }
+        if (strlen($this->kuvaus) > 400) {
+            $errors[] = 'Kuvaus saa olla enintään 400 merkkiä pitkä!';
+        }
+        return $errors;
+    }
+    
+        public function validate_nimi() {
         $errors = array();
         if($this->nimi == '' || $this->nimi == null) {
             $errors[] = 'Äänestyksen nimi ei voi olla tyhjä!';
@@ -124,24 +147,14 @@ class Aanestys extends BaseModel {
         return $errors;
     }
     
-    public function validate_kuvaus() {
-        $errors = array();
-        if($this->kuvaus == '' || $this->kuvaus == null) {
-            $errors[] = 'Lisää kuvaus!';
-        }
-        if (strlen($this->kuvaus) > 400) {
-            $errors[] = 'Kuvaus saa olla enintään 400 merkkiä pitkä!';
-        }
-        return $errors;
-    }
+
     
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Vaihtoehto WHERE aanestys_id = :aanestys_id');
         $query->execute(array('aanestys_id' => $this->id));
         
         $query = DB::connection()->prepare('DELETE FROM Aanestys WHERE id = :id');
-        $query->execute(array('id' => $this->id));
-        
+        $query->execute(array('id' => $this->id));   
     }
     
 }
